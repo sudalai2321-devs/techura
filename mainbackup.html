@@ -1,0 +1,927 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Strinox Symposium</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === CSS VARIABLES for THEME === */
+:root {
+  --bg-color: #0d1117;
+  --text-color: #c9d1d9;
+  --accent-color: #58a6ff;
+  --card-bg: rgba(22,27,34,0.8);
+  --header-bg: rgba(22,27,34,0.9);
+  --border-color: #30363d;
+}
+
+/* Light Theme */
+body.light-theme {
+  --bg-color: #f5f7fa;
+  --text-color: #222;
+  --accent-color: #005f73;
+  --card-bg: #ffffff;
+  --header-bg: rgba(255,255,255,0.9);
+  --border-color: #ddd;
+}
+
+/* BODY */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+  -webkit-user-select: none; -moz-user-select: none; 
+  -ms-user-select: none; user-select: none;
+}
+
+/* BACKGROUND */
+.animated-bg {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  z-index: -1;
+  background: linear-gradient(270deg, #0d1117, #1f2937, #005f73, #0a9396, #0d1117);
+  background-size: 1000% 1000%;
+  animation: gradientWave 25s ease infinite;
+}
+body.light-theme .animated-bg {
+  background: linear-gradient(270deg, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff);
+}
+
+@keyframes gradientWave { 
+  0%{background-position:0% 50%} 
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%} 
+}
+
+.star {
+  position: absolute;
+  border-radius:50%;
+  background:white;
+  opacity:0.8;
+  animation: twinkle 4s infinite;
+}
+body.light-theme .star { background: #ffffff; }
+
+@keyframes twinkle {
+  0%,100%{opacity:0.3;}
+  50%{opacity:1;}
+}
+
+/* HEADER */
+header {
+  background: var(--header-bg);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  display:flex; justify-content:flex-start; align-items:center;
+  position: sticky; top:0; z-index:100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  transition: background 0.5s ease;
+}
+header h1 { color: var(--accent-color); font-weight: 600; animation: fadeInDown 1s ease-in-out; }
+nav a {
+  color: var(--accent-color);
+  margin-left:1.5rem;
+  text-decoration:none;
+  font-weight:500;
+  transition:color 0.3s ease;
+}
+nav a:hover { color: #a5d6ff; }
+
+/* Theme Switcher */
+.theme-switcher {
+  margin-left: 1rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* HERO */
+.hero {
+  background: url('https://images.unsplash.com/photo-1581092795360-f68b71a2b2a3?fit=crop&w=1600&q=80') center/cover;
+  text-align:center;
+  padding:6rem 2rem;
+  color:white;
+  position:relative;
+  transition: color 0.5s ease;
+}
+body.light-theme .hero {
+  color: var(--text-color);
+  background: url('https://static.npfs.co/accounts/6579/documents/2025/3/5/DSU-Pic-04.jpg') center/cover;
+}
+.hero::after {
+  content:""; position:absolute; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.6);
+  transition: background 0.5s ease;
+}
+body.light-theme .hero::after { background: rgba(245,247,250,0.6); }
+.hero-content { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; }
+.hero h2 { font-size:3rem; color:var(--accent-color); }
+
+/* Register Button */
+.register-btn {
+  display:inline-block; margin-top:1.5rem;
+  padding:1rem 2.2rem; font-size:1.3rem; font-weight:700;
+  color:#fff; border-radius:8px; text-decoration:none;
+  background:linear-gradient(135deg, #58a6ff, #0a9396);
+  box-shadow:0 0 18px #58a6ff66;
+  letter-spacing: 0.5px;
+  animation: pulseGlow 2s infinite;
+}
+.register-btn:hover { transform:scale(1.08); box-shadow:0 0 28px #58a6ffaa; }
+@keyframes pulseGlow {
+  0%,100%{box-shadow:0 0 15px #58a6ff66;}
+  50%{box-shadow:0 0 30px #58a6ffaa;}
+}
+
+/* Countdown */
+.countdown {
+  font-size:1.2rem;
+  background: rgba(255,255,255,0.1);
+  border-radius:8px;
+  padding:0.5rem 1rem;
+  margin-top:1.5rem;
+  color: var(--accent-color);
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  display: block;
+  box-shadow: none;
+}
+
+/* Sections */
+main { flex:1; padding:3rem 2rem; max-width:1000px; margin:0 auto; }
+section { margin-bottom:4rem; }
+.intro h2 { font-size:2.5rem; margin-bottom:0.5rem; color:var(--accent-color); }
+.intro p { font-size:1.1rem; margin-bottom:15px; line-height:1.8; animation: introTextGlow 4s ease-in-out infinite; }
+
+/* EVENT TABS/LISTS */
+.events-tabs { display:flex; margin-bottom:2rem; cursor:pointer; background:rgba(255,255,255,0.05); border-radius:8px; overflow:hidden; }
+.events-tabs .tab { flex:1; padding:1rem; text-align:center; border-right:2px solid var(--accent-color); color:var(--accent-color); font-weight:600; transition:0.3s; }
+.events-tabs .tab:last-child{border-right:none;}
+.events-tabs .tab.active,.events-tabs .tab:hover{background:var(--accent-color); color:var(--bg-color);}
+.events-list { display:none; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; margin-top:1rem;}
+.events-list.active { display:grid; }
+
+/* Event card */
+.event-card { background:var(--card-bg); border:1px solid var(--border-color); padding:1.5rem; border-radius:8px; box-shadow:0 0 10px var(--accent-color)33; transition:0.3s; }
+.event-card:hover { transform: translateY(-5px) scale(1.02); box-shadow:0 0 20px var(--accent-color)aa; cursor: pointer; }
+.event-card h3 { margin-bottom:0.5rem; color:var(--accent-color); }
+.event-card p { font-size:0.95rem; color:var(--text-color); }
+
+/* FORM */
+form {
+  max-width: 600px;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 15px var(--accent-color)33;
+  border: 1px solid var(--border-color);
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+}
+form label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-color);
+  font-weight: 600;
+}
+form input, form select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1.25rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+form button {
+  background: var(--accent-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  color: var(--bg-color);
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+form button:hover { background: #a5d6ff; }
+
+/* FOOTER */
+footer {
+  background: var(--bg-color);
+  text-align: center;
+  color: var(--accent-color);
+  padding: 1rem 2rem;
+  border-top: 1px solid var(--border-color);
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* SUCCESS OVERLAY */
+.success-overlay {
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.success-message {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  color: var(--accent-color);
+  box-shadow: 0 0 20px var(--accent-color)aa;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* ANIMATIONS */
+@keyframes fadeInUp {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+@keyframes fadeInDown {
+  from {opacity: 0; transform: translateY(-20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+
+/* MOBILE IMPROVEMENTS */
+@media (max-width: 600px) {
+  body { font-size: 14px; line-height: 1.5; }
+  header { flex-direction: column; padding: 0.5rem 1rem; text-align: center; }
+  header h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  nav { display: flex; flex-wrap: wrap; justify-content: center; }
+  nav a { margin: 0.4rem 0.6rem; font-size: 0.9rem; padding: 0.3rem 0.6rem; border-radius: 4px; background: rgba(88, 166, 255, 0.1); }
+  .hero { padding: 3rem 1rem; background-position: center; }
+  .hero h2 { font-size: 2rem; }
+  .hero p { font-size: 1rem; }
+  .countdown { font-size: 1rem; padding: 0.4rem 0.8rem; }
+  section { padding: 1rem; margin-bottom: 2rem; }
+  .intro h2 { font-size: 1.8rem; }
+  .intro p { font-size: 0.95rem; }
+  .events-tabs { flex-direction: column; border-radius: 6px; }
+  .events-tabs div { padding: 0.8rem; font-size: 0.9rem; }
+  .events-list { gap: 1rem; }
+  .event-card { padding: 1rem; font-size: 0.9rem; }
+  .event-card h3 { font-size: 1.1rem; }
+  form { padding: 1rem; font-size: 0.9rem; }
+  form label { font-size: 0.9rem; }
+  form input, form select { font-size: 0.9rem; padding: 0.4rem 0.6rem; }
+  form button { width: 100%; padding: 0.6rem; font-size: 1rem; }
+  footer { font-size: 0.8rem; padding: 0.6rem; }
+  
+}
+@media (max-width: 600px) {
+  .techura-logo {
+    display: none !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero h2 { font-size: 1.6rem; }
+  nav a { padding: 0.4rem 0.5rem; margin: 0.2rem; }
+  .event-card { font-size: 0.85rem; }
+}
+
+/* Prevent text selection */
+body {
+  -webkit-user-select: none; 
+  -moz-user-select: none;  
+  -ms-user-select: none;       
+  user-select: none;         
+}
+
+header {
+  display: flex;
+  justify-content: flex-start; /* aligns items to left */
+  align-items: center;
+  background: var(--header-bg);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  transition: background 0.5s ease;
+}
+
+.techura-logo {
+  height: 70px; /* Change height as needed */
+  width: auto;
+  margin-right: 2rem;
+  display: block;
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 1rem;
+    text-align: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Animated Background -->
+<div class="animated-bg" id="stars"></div>
+
+<header>
+  <img src="strinox.png" alt="strinox 2K25 Logo" class="techura-logo" />
+  <nav>
+    <a href="#about">About</a>
+    <a href="#events">Events</a>
+    <a href="#registration">Registration</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <select id="themeSwitcher" class="theme-switcher" aria-label="Select theme">
+    <option value="dark">Futuristic Dark</option>
+    <option value="light">White</option>
+  </select>
+</header>
+
+
+<section class="hero">
+  <div class="hero-content">
+    <h2>STRINOX 2K25</h2>
+    <p>Innovate | Compete | Celebrate</p>
+<a href="#registration" class="register-btn">Register Now</a>
+<div class="countdown" id="countdown"></div>
+<a href="https://chat.whatsapp.com/ET8nvMV2JzeEW1UGKH3V04?mode=ac_t" target="_blank" rel="noopener" class="whatsapp-join-btn" aria-label="Join WhatsApp Group">Join Our WhatsApp Group</a>
+  </div>
+</section>
+<style>
+
+.whatsapp-join-btn {
+  margin-top: 10.5rem;
+}
+
+.countdown {
+  margin-bottom: 1.5rem;
+}
+.whatsapp-join-btn {
+  display: inline-block;
+  background: #25D366; /* WhatsApp green */
+  color: white;
+  padding: 0.85rem 1.8rem;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 8px rgba(37, 211, 102, 0.4);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  margin: 1rem 0;
+  user-select: none;
+}
+.whatsapp-join-btn:hover,
+.whatsapp-join-btn:focus {
+  background: #1ebe57;
+  box-shadow: 0 6px 14px rgba(37, 211, 102, 0.6);
+}
+</style>
+
+<main>
+  <section class="intro" id="about">
+    <h2>About the Event</h2>
+    <p>The Department of Information Technology, School of Engineering and Technology, Dhanalakshmi Srinivasan University in Associate with Techtitans proudly presents STRINOX 2K25, a National Level Technical Symposium to ignite innovation and inspire young minds.</p>
+
+<p>A symposium is not just an event but a platform for innovation, collaboration, and knowledge sharing. STRINOX brings together students and problem-solvers from across the nation.</p>
+
+<p><strong>Compile Crew's</strong></p> <p> A technical coding & debugging challenge.</p>
+<p><strong>Harmony Club's</strong><p>A non-technical contest of creativity, communication & teamwork</p>
+
+<p>STRINOX 2k25 is about learning, exploring, competing, and celebrating knowledge. Join us for this exciting journey of ideas and excellence.</p>
+
+<p><strong> We will provide lunch and snacks for all participants.</strong></p>
+
+    <p><strong>Date:</strong> 10th September 2025</p>
+  </section>
+
+  <section id="events">
+    <h2>Events</h2>
+    <div class="events-tabs">
+      <div class="tab active" data-target="technical">Compile Crew's <p>Technical Events</p></div>
+      <div class="tab" data-target="nontechnical">Harmony Club's <p>Non-Technical Events</p></div>
+    </div>
+    <div class="events-list active" id="technical">
+      <div class="event-card" data-details="Showcase your innovative research and ideas. 2 members per team.">
+        <h3>Xplorelt <p>Paper Presentation</p></h3>
+        <p>Present your research, creativity, and innovation.</p>
+      </div>
+      <div class="event-card" data-details="Debug real-world coding challenges. 2 members per team.">
+        <h3>BugBuster <p>Debugging</p></h3>
+        <p>Crack the code and debug faster than your peers.</p>
+      </div>
+      <div class="event-card" data-details="Bring your project ideas to life. 2 members per team.">
+        <h3>Model Matrix <p>Model Presentation</p></h3>
+        <p>Showcase your working models and technical prototypes.</p>
+      </div>
+    </div>
+    <div class="events-list" id="nontechnical">
+      <div class="event-card" data-details="Challenge your general knowledge. 2 members per team.">
+        <h3>MindMash <p>Quiz</p></h3>
+        <p>Compete in a fun and knowledge-packed quiz.</p>
+      </div>
+      <div class="event-card" data-details="Crack exciting challenges in teams. 3 members per team.">
+        <h3>Treasure Hunt <p>Crackathon</p></h3>
+        <p>A fun problem-solving challenge under pressure.</p>
+      </div>
+      <div class="event-card" data-details="Experience the thrill of strategy. 4 members per team.">
+        <h3>Bidwar<p>Action Premier league</p></h3>
+        <p>Form your dream team by bidding strategically.</p>
+      </div>
+    </div>
+  </section>
+
+<section id="registration">
+  <h2>Registration</h2>
+  <form id="registrationForm">
+
+    <label style="font-weight:600; margin-bottom:10px;">Select up to 3 Events (Technical & Non-Technical): <span style="color:#cb3737;">*</span></label>
+    <div style="display: flex; gap: 2rem; margin-bottom:1.5em; flex-wrap: wrap;">
+      <!-- Technical events LEFT -->
+      <div style="flex:1; min-width:180px;">
+        <div style="font-weight:600; font-size:1.08rem; margin-bottom:9px;">Technical Events</div>
+        <div style="display:flex;align-items:center;margin-bottom:8px;">
+          <input type="checkbox" name="event" value="paper_presentation" id="event1" style="accent-color:#ff0000;width:23px;height:23px;margin-right:10px;">
+          <label for="event1">Paper Presentation</label>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:8px;">
+          <input type="checkbox" name="event" value="debugging" id="event2" style="accent-color:#ff0000;width:23px;height:23px;margin-right:10px;">
+          <label for="event2">Debugging</label>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:8px;">
+          <input type="checkbox" name="event" value="model_presentation" id="event3" style="accent-color:#ff0000;width:23px;height:23px;margin-right:10px;">
+          <label for="event3">Model Presentation</label>
+        </div>
+      </div>
+ <div style="flex:1; min-width:180px;">
+        <div style="font-weight:600; font-size:1.08rem; margin-bottom:9px;">Non-Technical Events</div>
+        <div style="display:flex;align-items:center;margin-bottom:8px;">
+          <input type="checkbox" name="event" value="quiz" id="event4" style="accent-color:#ff0000;width:23px;height:23px;margin-right:10px;">
+          <label for="event4">Quiz</label>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:8px;">
+          <input type="checkbox" name="event" value="crackathon" id="event5" style="accent-color:#ff0000;width:23px;height:23px;margin-right:10px;">
+          <label for="event5">Crackathon</label>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:8px;">
+          <input type="checkbox" name="event" value="ipl_auction" id="event6" style="accent-color:#ff0000;width:23px;height:23px;margin-right:10px;">
+          <label for="event6">IPL Auction</label>
+        </div>
+      </div>
+    </div>
+    
+    <label style="font-weight:600;margin-top:10px;">Team Members (Max 3):</label>
+    <input type="text" name="member1" placeholder="Member 1 (Required)" required>
+    <input type="text" name="member2" placeholder="Member 2">
+    <input type="text" name="member3" placeholder="Member 3">
+
+<div style="display: flex; gap: 60px;">
+  <div>
+    <label style="font-weight:600; display:block; margin-bottom:18px;">Year of Studying</label>
+    <div style="display:flex; align-items:center; margin-bottom:18px;">
+      <input type="checkbox" id="year1" name="year" value="I" style="width:18px; height:18px;" onclick="handleCheckbox(this)">
+      <label for="year1" style="margin-left:12px; font-weight:500;">1st Year (I)</label>
+    </div>
+    <div style="display:flex; align-items:center; margin-bottom:18px;">
+      <input type="checkbox" id="year2" name="year" value="II" style="width:18px; height:18px;" onclick="handleCheckbox(this)">
+      <label for="year2" style="margin-left:12px; font-weight:500;">2nd Year (II)</label>
+    </div>
+  </div>
+  <div style="margin-top:37px;">
+    <div style="display:flex; align-items:center; margin-bottom:18px;">
+      <input type="checkbox" id="year3" name="year" value="III" style="width:18px; height:18px;" onclick="handleCheckbox(this)">
+      <label for="year3" style="margin-left:12px; font-weight:500;">3rd Year (III)</label>
+    </div>
+    <div style="display:flex; align-items:center; margin-bottom:18px;">
+      <input type="checkbox" id="year4" name="year" value="IV" style="width:18px; height:18px;" onclick="handleCheckbox(this)">
+      <label for="year4" style="margin-left:12px; font-weight:500;">4th Year (IV)</label>
+    </div>
+  </div>
+</div>
+
+<script>
+function handleCheckbox(clicked) {
+  // Get all checkboxes
+  const checkboxes = document.querySelectorAll('input[name="year"]');
+
+  if (clicked.checked) {
+    // Disable all except the one clicked
+    checkboxes.forEach(cb => {
+      if (cb !== clicked) cb.disabled = true;
+    });
+  } else {
+    // If unchecked, enable all checkboxes
+    checkboxes.forEach(cb => cb.disabled = false);
+  }
+}
+</script>
+
+
+
+<div style="margin-bottom:1.5em;">
+  <label for="department" style="font-weight:600;">Department:</label>
+  <input type="text" name="department" id="department" placeholder="Department (Required)" required>
+</div>
+
+<div style="margin-bottom:1.5em;">
+  <label for="collegename" style="font-weight:600;">College Name:</label>
+  <input type="text" name="collegename" id="collegename" placeholder="College Name (Required)" required>
+</div>
+    <label style="font-weight:600;margin-top:14px;">Email:</label>
+    <input type="email" name="email" placeholder="Email (Required)" required>
+    <label style="font-weight:600;margin-top:14px;">Phone:</label>
+    <input type="tel" name="phone" pattern="[0-9]{10}" placeholder="Phone (Required)" required>
+            <div style="margin-bottom:1.5em;">
+
+<section id="payment-info" style="text-align:center; margin-bottom:2.5rem;">
+  <h2 style="color:#58a6ff; margin-bottom:1rem;">Payment Information</h2>
+  <div id="totalFeeDisplay" style="font-weight:600;color:#005f73;font-size:1.19rem;margin-top:0.8em;">Total: ₹150</div>
+  <p style="margin-bottom:1.5rem;">Scan the QR code below to make payment, then upload your payment screenshot.</p>
+  <div id="qrContainer">
+    <img src="qr.jpg" alt="STRINOX 2025 Payment QR Code"
+        style="width:220px; border-radius:15px; box-shadow:0 0 15px #58a6ff66; display:block; margin:0 auto 1.2rem auto;">
+    <div style="color:#ffffff; font-size:1.07rem;"><strong>UPI ID :dsuniversity@IOB</strong></div>
+    <div style="color:#58a6ff; font-size:1.07rem;">Registration fee: ₹150 per Head</div>
+    <div style="color:#58a6ff; font-size:1.07rem;">Team Leader Should Pay for All Other Members</div>
+  </div>
+</section>
+
+  <label for="paymentScreenshot" style="font-weight:600;">Upload Payment Screenshot: <span style="color:#cb3737;">*</span></label>
+  <input type="file" name="paymentScreenshot" id="paymentScreenshot" accept="image/*" required>
+</div>
+<div style="margin-bottom:1.5em;">
+  <label for="upiTransactionId" style="font-weight:600;">UPI Transaction ID: <span style="color:#cb3737;">*</span></label>
+  <input type="text" name="upiTransactionId" id="upiTransactionId" placeholder="Enter UPI Transaction ID" required>
+</div>
+    <button type="submit">Register</button>
+
+  </form>
+</section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Address: NH-45, Trichy Chennai Trunk Road,
+      Samayapuram (Near Samayapuram Toll Plaza),
+      Tiruchirappalli - 621 112.
+      Tamil Nadu,
+      India.</p>
+    <p>Email: techtitandsu@gmail.com</p>
+    <p>Phone: +91 97916 40900 | +91 70107 52042</p>
+  </section>
+</main>
+
+<footer>
+  &copy; Strinox 2K25 Symposium | All rights reserved
+</footer>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-message">
+    <h3> Registration Successful!</h3>
+    <p>See you at the symposium..</p>
+    <button onclick="document.getElementById('successOverlay').style.display='none'">Close</button>
+  </div>
+</div>
+
+<script>
+// Star Background Generator
+const starsContainer = document.getElementById('stars');
+for (let i=0; i<100; i++){
+  let star = document.createElement('div');
+  let size = Math.random()*3 + 'px';
+  star.className = 'star';
+  star.style.width = size;
+  star.style.height = size;
+  star.style.top = Math.random()*100 + '%';
+  star.style.left = Math.random()*100 + '%';
+  star.style.animationDuration = (Math.random()*3 + 2) + 's';
+  starsContainer.appendChild(star);
+}
+
+// Tabs Switching
+document.querySelectorAll('.events-tabs .tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    let target = tab.getAttribute('data-target');
+    document.querySelectorAll('.events-list').forEach(list => {
+      list.classList.toggle('active', list.id === target);
+    });
+  });
+});
+
+
+// Countdown Timer
+let eventDate = new Date("Sep 10, 2025 09:00:00").getTime();
+let countdownEl = document.getElementById("countdown");
+let timer = setInterval(() => {
+  let now = new Date().getTime();
+  let diff = eventDate - now;
+  if (diff <= 0) {
+    clearInterval(timer);
+    countdownEl.innerHTML = "The Event is Live!";
+    return;
+  }
+  let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  let secs = Math.floor((diff % (1000 * 60)) / 1000);
+  countdownEl.innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
+}, 1000);
+
+
+// Limit event selection to max 3
+const maxEvents = 3;
+document.querySelectorAll('input[type="checkbox"][name="event"]').forEach(box => {
+  box.addEventListener('change', function() {
+    const checked = document.querySelectorAll('input[type="checkbox"][name="event"]:checked');
+    if (checked.length > maxEvents) {
+      this.checked = false;
+      alert(`You can select a maximum of ${maxEvents} events.`);
+    }
+  });
+});
+
+
+// Define mapping of parallel (opposite) events
+const parallelMap = {
+  "event1": "event4",
+  "event4": "event1", // Paper Presentation ↔ Quiz
+};
+
+// Listen for changes on event checkboxes
+document.querySelectorAll('input[type="checkbox"][name="event"]').forEach(box => {
+  box.addEventListener('change', function() {
+    const thisId = this.id;
+    const parallelId = parallelMap[thisId];
+    if (!parallelId) return; // No parallel, do nothing
+
+    const parallelBox = document.getElementById(parallelId);
+
+    if (this.checked) {
+      // Disable the parallel event
+      parallelBox.disabled = true;
+      parallelBox.parentElement.style.opacity = 0.5; // Optional: visually indicate disabled
+    } else {
+      // Enable the parallel event if none of the other group is selected
+      parallelBox.disabled = false;
+      parallelBox.parentElement.style.opacity = 1;
+    }
+  });
+});
+
+
+// Form Submission
+const REGISTRATION_URL = "https://script.google.com/macros/s/AKfycbys1hdI24S2P9YethD1ytwQnRoe_pik5MYM8jDVY4UMA-BGj0wJGBUEPAW_8YnyEPhn/exec";
+document.getElementById('registrationForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  let form = e.target;
+  let submitBtn = form.querySelector('button[type="submit"]');
+
+  if (!form.checkValidity()) {
+    alert("Please fill all required fields correctly.");
+    return;
+  }
+
+  const checkedBoxes = Array.from(document.querySelectorAll('input[type="checkbox"][name="event"]:checked'));
+  if (checkedBoxes.length === 0) {
+    alert("Please select at least one event.");
+    return;
+  }
+  // submiting
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting...";
+  // Create FormData
+  const formData = new FormData(form);
+
+  // Add selected events
+  formData.append("selected_events", checkedBoxes.map(cb => cb.value).join(","));
+
+  // Handle screenshot
+const fileInput = document.getElementById("paymentScreenshot");
+const file = fileInput.files[0];
+if (file) {
+  resizeAndCompressImage(file, 800, 800, 0.7, function(resizedBlob) {
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const base64String = reader.result.split(",")[1]; // remove prefix
+      formData.append("paymentScreenshot", base64String);
+      sendToGoogleSheet(formData);
+    };
+    reader.readAsDataURL(resizedBlob);
+  });
+} else {
+  sendToGoogleSheet(formData);
+}
+
+  function sendToGoogleSheet(formData) {
+    fetch(REGISTRATION_URL, {
+      method: "POST",
+      body: formData
+    })
+    .then(res => res.text())
+ .then(msg => {
+  try {
+    // If your server returns JSON
+    // let res = JSON.parse(msg);
+    // if (res.status === "success") { ... }
+
+    // If plain text:
+    if (msg.trim().toLowerCase() === "success") {
+      document.getElementById('successOverlay').style.display = 'flex';
+      form.reset();
+    } else {
+      alert("Submission failed: " + msg);
+    }
+  } catch (e) {
+    alert("Unexpected response: " + msg);
+  }
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Register";
+})
+
+    .catch(err => {
+      alert('Error submitting form');
+      console.error(err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Register";
+    });
+  }
+});
+
+function resizeAndCompressImage(file, maxWidth, maxHeight, quality, callback) {
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const img = new Image();
+    img.onload = function() {
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxWidth) {
+        height = Math.round((height * maxWidth) / width);
+        width = maxWidth;
+      }
+      if (height > maxHeight) {
+        width = Math.round((width * maxHeight) / height);
+        height = maxHeight;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob(
+        blob => {
+          callback(blob);
+        },
+        'image/jpeg',
+        quality
+      );
+    };
+    img.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+
+
+
+
+// Theme switcher logic
+const themeSelect = document.getElementById("themeSwitcher");
+const savedTheme = localStorage.getItem("theme") || "dark";
+if (savedTheme === "light") {
+  document.body.classList.add("light-theme");
+  themeSelect.value = "light";
+} else {
+  themeSelect.value = "dark";
+}
+themeSelect.addEventListener("change", () => {
+  if (themeSelect.value === "light") {
+    document.body.classList.add("light-theme");
+    localStorage.setItem("theme", "light");
+  } else {
+    document.body.classList.remove("light-theme");
+    localStorage.setItem("theme", "dark");
+  }
+});
+
+
+// ----------- Dynamic Total Fee Calculation -----------
+const memberInputs = [
+  document.querySelector('input[name="member1"]'),
+  document.querySelector('input[name="member2"]'),
+  document.querySelector('input[name="member3"]')
+];
+const totalFeeDisplay = document.getElementById('totalFeeDisplay');
+
+function updateFee() {
+  let count = 0;
+  memberInputs.forEach(input => {
+    if(input.value.trim().length > 0) count++;
+  });
+  if (count === 0) count = 1; // Always at least 1 member is required
+  totalFeeDisplay.textContent = `Total: ₹${count * 150}`;
+}
+
+// Run on load
+updateFee();
+// Update total fee on every input change
+memberInputs.forEach(input => {
+  input.addEventListener('input', updateFee);
+});
+
+const eventPdfLinks = {
+  'Xplorelt': 'https://drive.google.com/file/d/15_fjI217ePv5W-68QQwGCRDrIo3Bg9Nz/view?usp=sharing',
+  'BugBuster': 'https://drive.google.com/file/d/1JgDzvFvWwUrI9ud9xBpHZOyg3o_nHwxq/view?usp=sharing',
+  'Model Matrix': 'https://drive.google.com/file/d/1lT0Sc2aI5OlH8I_25XLpxM98ye59NQLl/view?usp=sharing',
+  'MindMash': 'https://drive.google.com/file/d/1_k7YgkVlwSrh3QXhTCFeBG-VkD_bUqvC/view?usp=sharing',
+  'Treasure Hunt': 'https://drive.google.com/file/d/1fcDUGlVRWn2zn-P97I7GM8nj74_3ZWd5/view?usp=sharing',
+  'Bidwar': 'https://drive.google.com/file/d/1Xd6jxYhsqCT6o6dU7Xb3JVfB8-aDmaxI/view?usp=sharing',
+};
+
+const eventCards = document.querySelectorAll('.event-card');
+eventCards.forEach(card => {
+card.addEventListener('click', () => {
+  let eventName = card.querySelector('h3').innerText.trim().split('\n')[0];
+  let pdfUrl = eventPdfLinks[eventName];
+  if (pdfUrl) {
+    window.open(pdfUrl, '_blank'); // This should open PDF in a new tab
+  } else {
+    alert('PDF not found for this event.');
+  } 
+});
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
